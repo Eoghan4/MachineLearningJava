@@ -39,7 +39,7 @@ public class Screen extends JFrame {
         // Add file selector
         JFileChooser fileChooser = new JFileChooser();
         JButton openFileButton = new JButton("Open File");
-        openFileButton.addActionListener(e -> {
+        openFileButton.addActionListener(_ -> {
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
             System.out.println("Selected file: " + fileChooser.getSelectedFile().getAbsolutePath());
@@ -47,6 +47,7 @@ public class Screen extends JFrame {
             textField.setText(fileHandler.readFile().toString());
             DataHandler dataHandler = new DataHandler(fileHandler.readFile());
             dataHandler.frequencyTable();
+            dataHandler.printDataItems();
             }
         });
         panel.add(openFileButton);
