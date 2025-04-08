@@ -1,3 +1,13 @@
+/************************************************************
+ * DataItems Class                                          *
+ *                                                          *
+ * Eoghan McGough                                           *
+ *                                                          *
+ * This class represents individual data items with their   *
+ * attributes, including name, yes/no counts, total, and    *
+ * percentage calculations.                                 *
+ ************************************************************/
+
 public class DataItems {
 
     private String name;

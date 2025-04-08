@@ -1,3 +1,12 @@
+/************************************************************
+ * FileHandler Class                                        *
+ *                                                          *
+ * Eoghan McGough                                           *
+ *                                                          *
+ * This class handles file operations including reading     *
+ * data from files and managing file connections.           *
+ ************************************************************/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

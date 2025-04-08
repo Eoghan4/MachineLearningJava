@@ -1,3 +1,13 @@
+/************************************************************
+ * Screen Class                                              *
+ *                                                          *
+ * Eoghan McGough                                           *
+ *                                                          *
+ * This class creates and manages the main GUI window of    *
+ * the application, including file selection, text display, *
+ * and button controls.                                     *
+ ************************************************************/
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;

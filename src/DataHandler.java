@@ -1,3 +1,12 @@
+/************************************************************
+ * DataHandler Class                                        *
+ *                                                          *
+ * Eoghan McGough                                           *
+ *                                                          *
+ * This class processes and analyzes data from input files, *
+ * creating frequency tables and managing data items.       *
+ ************************************************************/
+
 import java.util.ArrayList;
 
 public class DataHandler {
