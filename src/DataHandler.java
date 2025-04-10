@@ -70,4 +70,12 @@ public class DataHandler {
             System.out.println(item.getName() + " -> Yes: " + item.getYes() + ", No: " + item.getNo() + ", Total: " + item.getTotal() + ", Percentage: " + item.getPercentage() + "%");
         }
     }
+
+    public String returnDataItems() {
+        String result = new String();
+        for (DataItems item : dataItems) {
+            result += item.getName() + " -> Yes: " + item.getYes() + ", No: " + item.getNo() + ", Total: " + item.getTotal() + ", Percentage: " + item.getPercentage() + "%\n";
+        }
+        return result.toString();
+    }
 }
