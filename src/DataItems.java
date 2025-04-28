@@ -10,12 +10,14 @@
 
 public class DataItems {
 
+    // Attributes
     private String name;
     private int yes;
     private int no;
     private int total;
     private double percentage;
 
+    // Constructor
     public DataItems(String name, int yes, int no) {
         this.name = name;
         this.yes = yes;
@@ -24,6 +26,7 @@ public class DataItems {
         this.percentage = (double) yes / total * 100;
     }
 
+    // Methods
     public String getName() {
         return name;
     }

@@ -11,13 +11,16 @@ import java.util.ArrayList;
 
 public class DataHandler {
     
+    // Attributes
     private ArrayList<String> data;
     private ArrayList<DataItems> dataItems = new ArrayList<>();
 
+    // Constructor
     public DataHandler(ArrayList<String> data) {
         this.data = data;
     }
 
+    // Methods
     public void setData(ArrayList<String> data) {
         this.data = data;
     }
