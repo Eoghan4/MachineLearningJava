@@ -23,7 +23,7 @@ public class DataItems {
         this.yes = yes;
         this.no = no;
         this.total = yes + no;
-        this.percentage = (double) yes / total * 100;
+        calculatePercentage();
     }
 
     // Methods
@@ -65,5 +65,25 @@ public class DataItems {
 
     public void setPercentage(double percentage) {
         this.percentage = percentage;
+    }
+
+    public void incrementYes() {
+        this.yes++;
+        this.total++;
+        calculatePercentage();
+    }
+
+    public void incrementNo() {
+        this.no++;
+        this.total++;
+        calculatePercentage();
+    }
+
+    public void calculatePercentage() {
+        if (total > 0) {
+            this.percentage = ((double) yes / total) * 100;
+        } else {
+            this.percentage = 0;
+        }
     }
 }

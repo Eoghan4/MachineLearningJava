@@ -33,8 +33,48 @@ public class DataHandler {
         return dataItems;
     }
 
+    public void addData(String newRow) {
+        data.add(newRow);
+    }
+
     public void addDataItems(DataItems dataItem) {
         this.dataItems.add(dataItem);
+    }
+
+    public void trainData() {
+        dataItems.clear(); // Clear existing data items before retraining
+        
+        for (String row : data) {
+            String[] parts = row.split(",");
+            String name = parts[0] + "," + parts[1] + "," + parts[2] + "," + parts[3];
+            String label = parts[4].toLowerCase();
+            
+            boolean found = false;
+            for (DataItems item : dataItems) {
+                if (item.getName().equals(name)) {
+                    found = true;
+                    if (label.equals("yes")) {
+                        item.incrementYes();
+                    } else {
+                        item.incrementNo();
+                    }
+                    break;
+                }
+            }
+            
+            if (!found) {
+                if (label.equals("yes")) {
+                    dataItems.add(new DataItems(name, 1, 0));
+                } else {
+                    dataItems.add(new DataItems(name, 0, 1));
+                }
+            }
+        }
+        
+        // Update percentages for all items
+        for (DataItems item : dataItems) {
+            item.calculatePercentage();
+        }
     }
 
     public void frequencyTable() {
@@ -63,7 +103,6 @@ public class DataHandler {
         }
 
         for (int i = 0; i < uniqueCombinations.size(); i++) {
-            //System.out.println(uniqueCombinations.get(i) + " -> Yes: " + yesFrequency.get(i) + ", No: " + noFrequency.get(i));
             addDataItems(new DataItems(uniqueCombinations.get(i), yesFrequency.get(i), noFrequency.get(i)));
         }
     }
