@@ -2,6 +2,8 @@
 
 ## Java Prediction Application
 
+[*Video Demonstration*](https://www.youtube.com/watch?v=FjpJB0BLZu0)
+
 My given theme was ***whether or not a product will be in stock***, however this application can be used on any dataset that is given in the same format `csv` file.
 
 It takes in the `csv` file and allows the user to train the predictor based on the data, add custom rows to the dataset and retrain the predictor, make a prediction as to whether or not an item will be in stock (different if another dataset is provided) based on the 4 features, and finally it allows the user to test the predictors accuracy by splitting the data into training and test data.
