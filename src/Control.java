@@ -10,7 +10,7 @@
 
 public class Control {
     public static void main(String[] args) throws Exception {
-        Screen screen = new Screen("My Screen", 600, 250);
+        Screen screen = new Screen("Prediction Application", 600, 250);
         screen.createScreen();
     }
 }
