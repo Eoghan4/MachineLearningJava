@@ -68,4 +68,4 @@ If the predictor has been trained, the user can also click the `Test Accuracy` b
 ---
 ## What I Would Add
 
-If given more time, I would improve the GUI by adding multiple screens, rather than have everything crammed into one screen. I would also improve the accuracy test by having the stratified data be shuffled beforehand, to ensure more fair testing.
+If given more time, I would improve the GUI by adding multiple screens, rather than have everything crammed into one screen. I would also improve the accuracy test by having the stratified data be shuffled beforehand, to ensure more fair testing. I also would've improved some of the funcionality in the `FileHandler` class to reduce reusing certain aspects of the code.
