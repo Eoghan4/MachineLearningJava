@@ -46,6 +46,10 @@ public class DataHandler {
         
         for (String row : data) {
             String[] parts = row.split(",");
+            // Skip rows that don't have exactly 5 columns (4 features + 1 label)
+            if (parts.length != 5) {
+                continue;
+            }
             String name = parts[0] + "," + parts[1] + "," + parts[2] + "," + parts[3];
             String label = parts[4].toLowerCase();
             
@@ -74,6 +78,95 @@ public class DataHandler {
         // Update percentages for all items
         for (DataItems item : dataItems) {
             item.calculatePercentage();
+        }
+    }
+
+    public double testAccuracy() {
+        int yesCount = 0;
+        double yesRatio;
+
+        for (String row : data) {
+            String[] parts = row.split(",");
+            if (parts[4].equals("yes")) {
+                yesCount++;
+            }
+        }
+
+        yesRatio = (double) yesCount / 200;
+
+        int trainYes = (int)(150 * yesRatio);
+        int trainNo = 150 - trainYes;
+        int testYes = (int)(50 * yesRatio);
+        int testNo = 50 - testYes;
+
+        ArrayList<String> yesRows = new ArrayList<>();
+        ArrayList<String> noRows = new ArrayList<>();
+        
+        for (String row : data) {
+            String[] parts = row.split(",");
+            if (parts[4].equals("yes")) {
+                yesRows.add(row); // Keep the entire row including the label
+            } else {
+                noRows.add(row); // Keep the entire row including the label
+            }
+        }
+
+        ArrayList<String> trainRows = new ArrayList<>();
+        ArrayList<String> testRows = new ArrayList<>();
+
+        trainRows.addAll(yesRows.subList(0, trainYes));
+        testRows.addAll(yesRows.subList(trainYes, trainYes + testYes));
+        trainRows.addAll(noRows.subList(0, trainNo));
+        testRows.addAll(noRows.subList(trainNo, trainNo + testNo));
+
+        DataHandler trainDataHandler = new DataHandler(trainRows);
+        DataHandler testDataHandler = new DataHandler(testRows);
+
+        trainDataHandler.trainData();
+        testDataHandler.trainData();
+
+        trainDataHandler.frequencyTable();
+        
+        int correct = 0;
+        int incorrect = 0;
+        int totalTested = 0;
+
+        for (String row : testRows) {
+            String[] parts = row.split(",");
+            String name = parts[0] + "," + parts[1] + "," + parts[2] + "," + parts[3];
+            String actualLabel = parts[4].toLowerCase();
+
+            boolean found = false;
+            for (DataItems item : trainDataHandler.getDataItems()) {
+                if (item.getName().equals(name)) {
+                    found = true;
+                    totalTested++;
+                    
+                    // Get model's prediction based on percentage
+                    String predictedLabel = (item.getPercentage() >= 50) ? "yes" : "no";
+                    
+                    // Compare prediction with actual label
+                    if (predictedLabel.equals(actualLabel)) {
+                        correct++;
+                    } else {
+                        incorrect++;
+                    }
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("No matching training data found for: " + name);
+            }
+        }
+
+        if (totalTested > 0) {
+            double accuracy = (double) correct / totalTested * 100;
+            System.out.println("Accuracy: " + String.format("%.2f", accuracy) + "%");
+            System.out.println("Correct: " + correct + ", Incorrect: " + incorrect + ", Total Tested: " + totalTested);
+            return accuracy;
+        } else {
+            System.out.println("No test cases were successfully matched with training data.");
+            return 0;
         }
     }
 

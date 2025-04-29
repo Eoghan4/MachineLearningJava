@@ -121,15 +121,17 @@ public class Screen extends JFrame {
         togglePanel.add(noRadioButton);
 
         mainPanel.add(togglePanel, BorderLayout.EAST);
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 3, 10, 10)); // 1 row, 3 columns, 10px gap
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4, 10, 10)); // Changed to 4 columns
 
         JButton trainButton = new JButton("Train");
         JButton submitButton = new JButton("Predict");
         JButton addButton = new JButton("Add Row");
+        JButton testAccuracyButton = new JButton("Test Accuracy");
 
         bottomPanel.add(trainButton);
         bottomPanel.add(submitButton);
         bottomPanel.add(addButton);
+        bottomPanel.add(testAccuracyButton);
 
         // Add action listeners
         openFileButton.addActionListener(_ -> {
@@ -153,46 +155,66 @@ public class Screen extends JFrame {
         });
 
         trainButton.addActionListener(_ -> {
-            dataHandler.trainData();
-            dataHandler.frequencyTable();
-            textArea.setText(dataHandler.returnDataItems());
-            resultLabel.setText("Data trained successfully.");
+            if (dataHandler != null) {
+                dataHandler.trainData();
+                dataHandler.frequencyTable();
+                textArea.setText(dataHandler.returnDataItems());
+                resultLabel.setText("Data trained successfully.");
+            } else {
+                resultLabel.setText("Please load data first.");
+            }
         });
 
         submitButton.addActionListener(_ -> {
-            System.out.println("Predict button clicked.");
+            if (dataHandler != null) {
+                System.out.println("Predict button clicked.");
 
-            String permutation = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText();
-            for (DataItems item : dataHandler.getDataItems()) {
-                if (item.getName().equals(permutation)) {
-                    if (item.getPercentage() >= 50) {
-                        resultLabel.setText("Yes - Confidence = " + item.getPercentage() + "%");
-                        break;
+                String permutation = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText();
+                for (DataItems item : dataHandler.getDataItems()) {
+                    if (item.getName().equals(permutation)) {
+                        if (item.getPercentage() >= 50) {
+                            resultLabel.setText("Yes - Confidence = " + item.getPercentage() + "%");
+                            break;
+                        } else {
+                            resultLabel.setText("No - Confidence =  " + (100 - item.getPercentage()) + "%");
+                            break;
+                        }
                     } else {
-                        resultLabel.setText("No - Confidence =  " + (100 - item.getPercentage()) + "%");
-                        break;
+                        resultLabel.setText("Please ensure data entered is correct.");
                     }
-                } else {
-                    resultLabel.setText("Please ensure data entered is correct.");
                 }
+            } else {
+                resultLabel.setText("Please load and train data first.");
             }
         });
 
         addButton.addActionListener(_ -> {
-            String newRow = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText() + "," + (yesRadioButton.isSelected() ? "yes" : "no");
-            String newRowName = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText();
-            for (DataItems item : dataHandler.getDataItems()) {
-                if (item.getName().equals(newRowName)) {
-                    dataHandler.addData(newRow);
-                    resultLabel.setText("Row added successfully.");
-                    break;
+            if (dataHandler != null) {
+                String newRow = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText() + "," + (yesRadioButton.isSelected() ? "yes" : "no");
+                String newRowName = textField1.getText() + "," + textField2.getText() + "," + textField3.getText() + "," + textField4.getText();
+                for (DataItems item : dataHandler.getDataItems()) {
+                    if (item.getName().equals(newRowName)) {
+                        dataHandler.addData(newRow);
+                        resultLabel.setText("Row added successfully.");
+                        break;
+                    }
+                    else {
+                        resultLabel.setText("Please ensure data entered is correct.");
+                    }
                 }
-                else {
-                    resultLabel.setText("Please ensure data entered is correct.");
-                }
+                System.out.println("Add Row button clicked.");
+            } else {
+                resultLabel.setText("Please load data first.");
             }
-            System.out.println("Add Row button clicked.");
-            
+        });
+
+        testAccuracyButton.addActionListener(_ -> {
+            if (dataHandler != null) {
+                dataHandler.testAccuracy();
+                resultLabel.setText("Accuracy: " + dataHandler.testAccuracy() + "%");
+            } else {
+                resultLabel.setText("Please load and train data first.");
+            }
         });
 
         // Add panels to the main panel
